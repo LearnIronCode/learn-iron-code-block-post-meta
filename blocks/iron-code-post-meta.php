@@ -73,3 +73,24 @@ function iron_code_post_meta_block_render_callback( $attributes ) {
 		esc_html( get_post_meta( get_the_ID(), 'fe_learn_post_meta_block', true ) )
 	);
 }
+
+add_action( 'init', 'expose_post_meta_to_rest_fe_learn_post_meta_block' );
+
+/**
+ * Expose_post_meta_to_rest_fe_learn_post_meta_block
+ *
+ * Expose our the post meta value with key 'fe_learn_post_meta_block'
+ * to the REST API (by default post meta values are not accessible via
+ * the REST API).
+ */
+function expose_post_meta_to_rest_fe_learn_post_meta_block() {
+	register_meta(
+		'post',
+		'fe_learn_post_meta_block',
+		[
+			'type'         => 'string',
+			'single'       => true,
+			'show_in_rest' => true,
+		]
+	);
+}
