@@ -53,11 +53,26 @@ function iron_code_post_meta_block_init() {
 		filemtime( "$dir/$style_css" )
 	);
 
+
+	/**
+	 * Attributes are the editable variables in our block.
+	 *
+	 * myVal is stored as a string in post meta under with the key 'fe_learn_post_meta_block'.
+	 */
+	$attributes = array(
+		'myVal' => array(
+			'meta'   => 'fe_learn_post_meta_block',
+			'source' => 'meta',
+			'type'   => 'string',
+		),
+	);
+
 	register_block_type( 'learn-iron-code-block-post-meta/iron-code-post-meta', array(
 		'editor_script' => 'iron-code-post-meta-block-editor',
 		'editor_style'  => 'iron-code-post-meta-block-editor',
 		'style'         => 'iron-code-post-meta-block',
 		'render_callback' => 'iron_code_post_meta_block_render_callback',
+		'attributes'    => $attributes,
 	) );
 }
 add_action( 'init', 'iron_code_post_meta_block_init' );

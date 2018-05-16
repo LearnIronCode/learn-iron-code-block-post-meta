@@ -7,8 +7,13 @@
 	/**
 	 * Returns a new element of given type. Element is an abstraction layer atop React.
 	 * @see https://github.com/WordPress/gutenberg/tree/master/element#element
+	 *
+	 * TextControl Renders a text input field.
+	 * @see https://github.com/WordPress/gutenberg/blob/master/components/text-control
 	 */
-	var el = wp.element.createElement;
+	var el = wp.element.createElement,
+		TextControl = wp.components.TextControl;
+
 	/**
 	 * Retrieves the translation of text.
 	 * @see https://github.com/WordPress/gutenberg/tree/master/i18n#api
@@ -55,10 +60,28 @@
 		 * @return {Element}       Element to render.
 		 */
 		edit: function( props ) {
+
+			/**
+			 * Function to update "myVal" attribute.
+			 */
+			function onChangeMyVal( newMyVal ) {
+				// Update the value that will be stored in post meta.
+				props.setAttributes( { myVal: newMyVal } );
+			}
+
+			/**
+			 * Render our block for the editor using our myVal attribute.
+			 *
+			 * Additionally, assign an onChange function for updating the myVal attribute.
+			 */
 			return el(
-				'p',
-				{ className: props.className },
-				__( 'Hello from the editor!' )
+				TextControl,
+				{
+					className: props.className,
+					onChange: onChangeMyVal,
+					placeHolder: __('Enter your post meta value here'),
+					value: props.attributes.myVal
+				}
 			);
 		},
 
@@ -70,11 +93,8 @@
 		 * @return {Element}       Element to render.
 		 */
 		save: function() {
-			return el(
-				'p',
-				{},
-				__( 'Hello from the saved content!' )
-			);
+			// Our meta attribute is automatically saved to post meta.
+			return null;
 		}
 	} );
 } )(
