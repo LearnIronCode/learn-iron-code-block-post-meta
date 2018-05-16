@@ -57,6 +57,19 @@ function iron_code_post_meta_block_init() {
 		'editor_script' => 'iron-code-post-meta-block-editor',
 		'editor_style'  => 'iron-code-post-meta-block-editor',
 		'style'         => 'iron-code-post-meta-block',
+		'render_callback' => 'iron_code_post_meta_block_render_callback',
 	) );
 }
 add_action( 'init', 'iron_code_post_meta_block_init' );
+
+/**
+ * Iron_code_post_meta_block_render_callback
+ *
+ * @param mixed $attributes Attributes from the block we are rendering.
+ * @return string Markup to output on the page.
+ */
+function iron_code_post_meta_block_render_callback( $attributes ) {
+	return sprintf( '<div class="wp-block-learn-iron-code-block-post-meta-iron-code-post-meta">Stored Post Meta Value (<code>fe_learn_post_meta_block</code>) is: "<code>%s</code>"</div>',
+		esc_html( get_post_meta( get_the_ID(), 'fe_learn_post_meta_block', true ) )
+	);
+}
